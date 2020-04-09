@@ -78,21 +78,23 @@ jobs:
       #     path: ./bin/targets/
 
       - name: Create release
+        if: github.event_name == 'push'
         id: create_release
         uses: actions/create-release@v1.0.1
         env:
-          GITHUB_TOKEN: ${{ secrets.AABB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: 12121321 ${{ github.ref }}
+          release_name: 112233 ${{ github.ref }}
           draft: false
           prerelease: false      
 
       - name: Upload release asset
+        if: github.event_name == 'push'
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1.0.2
         env:
-          GITHUB_TOKEN: ${{ secrets.AABB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./makeconfig.d/
